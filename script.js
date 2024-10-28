@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .then(response => response.json())
       .then(data => {
         artworkData = data;
+        console.log("Fetched artwork data:", artworkData); // Debugging statement
         displayArtworks(artworkData);  // Initial display
       })
       .catch(error => {
@@ -17,7 +18,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Listen for sorting selection changes
     sortBySelect.addEventListener("change", (event) => {
       const sortBy = event.target.value;
+      console.log("Sorting by:", sortBy); // Debugging statement
+  
       const sortedData = sortArtworks(artworkData, sortBy);
+      console.log("Sorted data:", sortedData); // Debugging statement
+  
       displayArtworks(sortedData);
     });
   
