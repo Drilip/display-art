@@ -453,14 +453,6 @@
     "year": "1889",
     "description": "A beautiful painting of a starry night.",
     "image": "images/the-starry-night.jpeg",
-    "visibility": true
-  },
-  {
-    "title": "Mona Lisa",
-    "artist": "Leonardo da Vinci",
-    "year": "1503",
-    "description": "A portrait of Lisa Gherardini.",
-    "image": "images/mona-lisa.jpeg",
-    "visibility": true
+    "visibility": false
   }
 ]
