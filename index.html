@@ -8,6 +8,18 @@
 </head>
 <body>
   <h1>Art Collection</h1>
+
+  <!-- Sorting Dropdown -->
+  <div id="controls">
+    <label for="sort-select">Sort by:</label>
+    <select id="sort-select">
+      <option value="title">Title</option>
+      <option value="artist">Artist</option>
+      <option value="year">Year</option>
+    </select>
+    <button id="toggle-visibility">Toggle Visibility</button>
+  </div>
+
   <div id="gallery"></div>
   <script src="script.js"></script>
 </body>
