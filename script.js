@@ -1,56 +1,54 @@
 document.addEventListener("DOMContentLoaded", () => {
     const gallery = document.getElementById("gallery");
-    const sortSelect = document.getElementById("sort-select");
-  
+    const sortBySelect = document.getElementById("sort-by");
     let artworkData = [];
   
-    // Fetch and render artworks
-    function fetchArtworks() {
-      fetch("artworks.json")
-        .then(response => response.json())
-        .then(data => {
-          artworkData = data;
-          renderArtworks();
-        })
-        .catch(error => {
-          console.error("Error loading artwork data:", error);
-        });
-    }
-  
-    // Render artworks based on data and sorting
-    function renderArtworks() {
-      gallery.innerHTML = "";  // Clear existing content
-  
-      // Apply sorting
-      const sortedData = [...artworkData].sort((a, b) => {
-        const sortBy = sortSelect.value;
-        if (sortBy === "year") return a[sortBy] - b[sortBy];
-        return a[sortBy].localeCompare(b[sortBy]);
+    // Fetch artwork data
+    fetch("artworks.json")
+      .then(response => response.json())
+      .then(data => {
+        artworkData = data;
+        displayArtworks(artworkData);  // Initial display
+      })
+      .catch(error => {
+        console.error("Error loading artwork data:", error);
       });
   
-      // Display sorted and visible artworks
-      sortedData.forEach(artwork => {
-        if (artwork.visible) {
-          const artworkCard = document.createElement("div");
-          artworkCard.classList.add("artwork-card");
+    // Listen for sorting selection changes
+    sortBySelect.addEventListener("change", (event) => {
+      const sortBy = event.target.value;
+      const sortedData = sortArtworks(artworkData, sortBy);
+      displayArtworks(sortedData);
+    });
   
-          artworkCard.innerHTML = `
-            <img src="${artwork.image}" alt="${artwork.title}">
-            <h2>${artwork.title}</h2>
-            <p><strong>Artist:</strong> ${artwork.artist}</p>
-            <p><strong>Year:</strong> ${artwork.year}</p>
-            <p>${artwork.description}</p>
-          `;
-  
-          gallery.appendChild(artworkCard);
+    // Sort artworks based on the selected attribute
+    function sortArtworks(data, attribute) {
+      return data.slice().sort((a, b) => {
+        if (attribute === "year") {
+          return parseInt(a[attribute]) - parseInt(b[attribute]);
+        } else {
+          return a[attribute].localeCompare(b[attribute]);
         }
       });
     }
   
-    // Event listener for sorting
-    sortSelect.addEventListener("change", renderArtworks);
+    // Display artworks in the gallery
+    function displayArtworks(data) {
+      gallery.innerHTML = "";  // Clear current gallery
+      data.forEach(artwork => {
+        const artworkCard = document.createElement("div");
+        artworkCard.classList.add("artwork-card");
   
-    // Initial fetch and render
-    fetchArtworks();
+        artworkCard.innerHTML = `
+          <img src="${artwork.image}" alt="${artwork.title}">
+          <h2>${artwork.title}</h2>
+          <p><strong>Artist:</strong> ${artwork.artist}</p>
+          <p><strong>Year:</strong> ${artwork.year}</p>
+          <p>${artwork.description}</p>
+        `;
+  
+        gallery.appendChild(artworkCard);
+      });
+    }
   });
   
